@@ -6,6 +6,7 @@ import argparse
 import requests
 import time
 import shutil
+from utils import epub_cfi_converter
 
 colors = {
     0: "yellow",
@@ -208,7 +209,11 @@ def main():
             book_card["metadata"]["publisher"] = book["publisher"]
 
         new_library_books.append(book_card)
+        for booknote in book.get("booknotes", []):
+            new_note = epub_cfi_converter(book["path"], booknote["cfi"])
+            print(f"{booknote['cfi']} -> {new_note}")
 
+            booknote["cfi"] = new_note
         book_config = {
             "updatedAt": current_time,
             **baseBookConfig,
@@ -228,13 +233,13 @@ def main():
         with open(Path(book_dir / "config.json"), "w", encoding="utf-8") as f:
             json.dump(book_config, f, ensure_ascii=False)
 
-    library_config = Path(output_directory / "library.json")
+    library_config = Path(input_directory / "library.json")
     json_books = []
     if library_config.exists():
         with open(library_config, "r", encoding="utf-8") as f:
             json_books = json.load(f)
     json_books.extend(new_library_books)
-    with open(library_config, "w", encoding="utf-8") as f:
+    with open(Path(output_directory / "library.json"), "w", encoding="utf-8") as f:
         json.dump(json_books, f, ensure_ascii=False)
 
 
