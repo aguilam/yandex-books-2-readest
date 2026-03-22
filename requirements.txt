@@ -1,0 +1,3 @@
+lxml==6.0.2
+nanoid==2.0.0
+Requests==2.32.5
