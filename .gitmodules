@@ -1,0 +1,3 @@
+[submodule "bookmate_downloader"]
+	path = bookmate_downloader
+	url = https://github.com/kettle017/RU_Bookmate_downloader.git

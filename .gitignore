@@ -2,4 +2,6 @@ input/
 output/
 processing/
 venv/
+token.txt
+mybooks/
 **/__pycache__
